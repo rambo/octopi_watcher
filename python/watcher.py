@@ -99,7 +99,7 @@ class controller(object):
     def enable_printer_power(self):
         extra_headers = { 'X-Api-Key': self.config['API_KEY'] }
         url = "%s/api/system" % self.config['API_BASE_URL']
-        post_data = { 'action': 'printer off' }
+        post_data = { 'action': 'printer on' }
         try:
             logging.info("Enabling printer power")
 
@@ -117,7 +117,7 @@ class controller(object):
     def disable_printer_power(self):
         extra_headers = { 'X-Api-Key': self.config['API_KEY'] }
         url = "%s/api/system" % self.config['API_BASE_URL']
-        post_data = { 'action': 'printer on' }
+        post_data = { 'action': 'printer off' }
         try:
             logging.info("Disabling printer power")
 
