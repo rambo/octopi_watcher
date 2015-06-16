@@ -14,8 +14,8 @@ from tornado.httpclient import AsyncHTTPClient
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 
-LOGLEVEL = logging.DEBUG
-#LOGLEVEL = logging.INFO
+#LOGLEVEL = logging.DEBUG
+LOGLEVEL = logging.INFO
 
 class controller(object):
     config = {}
@@ -97,9 +97,9 @@ class controller(object):
     def enable_printer_power(self):
         extra_headers = { 'X-Api-Key': self.config['API_KEY'] }
         url = "%s/api/system" % self.config['API_BASE_URL']
-        post_vars = { 'action': 'printer off' }
+        post_data = { 'action': 'printer off' }
         try:
-            logging.debug("Enabling printer power")
+            logging.info("Enabling printer power")
 
             response = yield AsyncHTTPClient().fetch(url, method='POST', request_timeout=1, headers=extra_headers, body=urllib.urlencode(post_data))
             if response.error:
@@ -117,9 +117,9 @@ class controller(object):
     def disable_printer_power(self):
         extra_headers = { 'X-Api-Key': self.config['API_KEY'] }
         url = "%s/api/system" % self.config['API_BASE_URL']
-        post_vars = { 'action': 'printer on' }
+        post_data = { 'action': 'printer on' }
         try:
-            logging.debug("Disabling printer power")
+            logging.info("Disabling printer power")
 
             response = yield AsyncHTTPClient().fetch(url, method='POST', request_timeout=1, headers=extra_headers, body=urllib.urlencode(post_data))
             if response.error:
