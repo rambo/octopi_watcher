@@ -6,6 +6,7 @@ import logging
 import yaml
 import json
 import time
+import urllib
 from tornado.ioloop import IOLoop, PeriodicCallback
 from tornado import gen
 from tornado.httpclient import AsyncHTTPClient
@@ -94,8 +95,19 @@ class controller(object):
 
     @gen.coroutine
     def enable_printer_power(self):
+        extra_headers = { 'X-Api-Key': self.config['API_KEY'] }
+        url = "%s/api/system" % self.config['API_BASE_URL']
+        post_vars = { 'action': 'printer off' }
         try:
             logging.debug("Enabling printer power")
+
+            response = yield AsyncHTTPClient().fetch(url, method='POST', request_timeout=1, headers=extra_headers, body=urllib.urlencode(post_data))
+            if response.error:
+                logging.warning("Got exception %s when fetching %s" % (response.error, url))
+            else:
+                pass
+                
+
             self.job_last_active = time.time()
         except Exception, e:
             logging.exception(e)
@@ -103,8 +115,18 @@ class controller(object):
 
     @gen.coroutine
     def disable_printer_power(self):
+        extra_headers = { 'X-Api-Key': self.config['API_KEY'] }
+        url = "%s/api/system" % self.config['API_BASE_URL']
+        post_vars = { 'action': 'printer on' }
         try:
             logging.debug("Disabling printer power")
+
+            response = yield AsyncHTTPClient().fetch(url, method='POST', request_timeout=1, headers=extra_headers, body=urllib.urlencode(post_data))
+            if response.error:
+                logging.warning("Got exception %s when fetching %s" % (response.error, url))
+            else:
+                pass
+
         except Exception, e:
             logging.exception(e)
         pass
