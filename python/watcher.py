@@ -79,7 +79,7 @@ class controller(object):
             if response.error:
                 logging.warning("Got exception %s when fetching %s" % (response.error, url))
             else:
-                logging.info("Fetched %s in %s seconds" % (url, response.request_time))
+                logging.debug("Fetched %s in %s seconds" % (url, response.request_time))
                 decoded = json.loads(response.body)
                 logging.debug("Decoded response %s" % repr(decoded))
                 if decoded['state'] == 'Printing':
@@ -89,14 +89,13 @@ class controller(object):
         
         if self.job_last_active:
             if time.time() - self.job_last_active > self.config['MAIN_POWER_TIMEOUT']:
+                logging.info("Disabling printer power after %s seconds of inactivity" % self.config['MAIN_POWER_TIMEOUT'])
                 self.mainloop.spawn_callback(self.disable_printer_power)
-                
-            
 
     @gen.coroutine
     def enable_printer_power(self):
         try:
-            logging.info("Enabling printer power")
+            logging.debug("Enabling printer power")
             self.job_last_active = time.time()
         except Exception, e:
             logging.exception(e)
@@ -105,7 +104,7 @@ class controller(object):
     @gen.coroutine
     def disable_printer_power(self):
         try:
-            logging.info("Disabling printer power after %s seconds of inactivity" % self.config['MAIN_POWER_TIMEOUT'])
+            logging.debug("Disabling printer power")
         except Exception, e:
             logging.exception(e)
         pass
