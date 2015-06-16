@@ -62,9 +62,9 @@ class controller(object):
 
 if __name__ == '__main__':
     import sys
-    if len(sys.argv) < 2:
-        print("Usage: refresher_daemon.py config.yml")
-        sys.exit(1)
+#    if len(sys.argv) < 2:
+#        print("Usage: watcher.py config.yml")
+#        sys.exit(1)
     # TODO: add a bsic formatter that gives timestamps etc
     logging.basicConfig(level=LOGLEVEL, stream=sys.stdout)
     loop = IOLoop.instance()
